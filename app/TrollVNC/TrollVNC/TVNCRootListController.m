@@ -169,29 +169,12 @@ NS_INLINE NSString *TVNCGetEn0IPAddress(void) {
     }()
 
 - (BOOL)hasManagedConfiguration {
-    static BOOL sIsManaged = NO;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSString *presetPath = [self.bundle pathForResource:@"Managed" ofType:@"plist"];
-        if (presetPath) {
-            NSDictionary *presetDict = [NSDictionary dictionaryWithContentsOfFile:presetPath];
-            if (presetDict) {
-                sIsManaged = YES;
-            }
-        }
-    });
-    return sIsManaged;
+    return NO;
 }
 
 - (NSArray *)specifiers {
     if (!_specifiers) {
         NSMutableArray<PSSpecifier *> *specifiers = nil;
-
-        if (!specifiers) {
-            if ([self hasManagedConfiguration]) {
-                specifiers = [self loadSpecifiersFromPlistName:@"ManagedRoot" target:self];
-            }
-        }
 
         if (!specifiers) {
             specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
